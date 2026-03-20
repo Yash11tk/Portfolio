@@ -53,7 +53,7 @@ const Education = () => {
 
             <div className="flex gap-4 mt-3">
               <span className="bg-[#112240] px-3 py-1 rounded-full text-sm">
-                Percentage: 81%
+                Percentage: 67%
               </span>
             </div>
           </div>
@@ -75,7 +75,7 @@ const Education = () => {
 
             <div className="flex gap-4 mt-3">
               <span className="bg-[#112240] px-3 py-1 rounded-full text-sm">
-                Percentage: 67%
+                Percentage: 81%
               </span>
             </div>
           </div>

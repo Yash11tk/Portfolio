@@ -25,10 +25,11 @@ export default function Contact() {
             <Info icon={<FaMapMarkerAlt />} title="Location" value="Punjab, India" />
           </div>
 
+          {/* ✅ Clickable Icons */}
           <div className="flex gap-4 mt-6">
-            <IconBtn icon={<FaGithub />} />
-            <IconBtn icon={<FaLinkedin />} />
-            <IconBtn icon={<FaEnvelope />} />
+            <IconBtn icon={<FaGithub />} link="https://github.com/Yash11tk" />
+            <IconBtn icon={<FaLinkedin />} link="https://linkedin.com/in/your-linkedin" />
+            <IconBtn icon={<FaEnvelope />} link="mailto:thakurathiyash@gmail.com" />
           </div>
         </div>
 
@@ -66,10 +67,15 @@ function Info({ icon, title, value }) {
   );
 }
 
-function IconBtn({ icon }) {
+function IconBtn({ icon, link }) {
   return (
-    <button className="bg-[#0a192f] p-3 rounded-lg border border-blue-900 hover:border-blue-400 transition">
+    <a
+      href={link}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="bg-[#0a192f] p-3 rounded-lg border border-blue-900 hover:border-blue-400 hover:scale-110 transition duration-300"
+    >
       {icon}
-    </button>
+    </a>
   );
 }
