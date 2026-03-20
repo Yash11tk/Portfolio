@@ -20,8 +20,8 @@ export default function Contact() {
           </p>
 
           <div className="space-y-4">
-            <Info icon={<FaEnvelope />} title="Email" value="yourmail@gmail.com" />
-            <Info icon={<FaPhoneAlt />} title="Phone" value="+91-XXXXXXXXXX" />
+            <Info icon={<FaEnvelope />} title="Email" value="thakurathiyash@gmail.com" />
+            <Info icon={<FaPhoneAlt />} title="Phone" value="+91-7895259493" />
             <Info icon={<FaMapMarkerAlt />} title="Location" value="Punjab, India" />
           </div>
 
