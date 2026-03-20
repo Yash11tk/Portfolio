@@ -6,6 +6,7 @@ import Internship from "./components/Internship";
 import Projects from "./components/Projects";
 import Training from "./components/Training";
 import Certificates from "./components/Certificates";
+import Achievements from "./components/Achievements";
 import Education from "./components/Education";
 import Contact from "./components/Contact";
 
@@ -45,8 +46,13 @@ function App() {
           <Certificates />
         </section>
 
+        {/* ✅ Added Achievements here */}
+        <section id="achievements" className="py-20 px-6">
+          <Achievements />
+        </section>
+
         <section id="education" className="py-20 px-6">
-        <Education />
+          <Education />
         </section>
         
         <section id="contact" className="py-20 px-6">
