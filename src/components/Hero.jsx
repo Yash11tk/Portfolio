@@ -21,17 +21,17 @@ const Hero = () => {
       </p>
 
       <div className="flex gap-4 mt-6 flex-wrap">
-        <a href="https://www.linkedin.com/in/yash-thakurathi" target="_blank"
+        <a href="https://www.linkedin.com/in/yash-thakurathi" target="_blank" rel="noopener noreferrer"
           className="bg-[#132a46] px-5 py-2 rounded-lg hover:bg-[#1d3b5c]">
           LinkedIn
         </a>
 
-        <a href="https://github.com/Yash11tk" target="_blank"
+        <a href="https://github.com/Yash11tk" target="_blank" rel="noopener noreferrer"
           className="bg-[#132a46] px-5 py-2 rounded-lg hover:bg-[#1d3b5c]">
           GitHub
         </a>
 
-        <a href="https://leetcode.com/u/8QUJcwnFTF/" target="_blank"
+        <a href="https://leetcode.com/u/8QUJcwnFTF/" target="_blank" rel="noopener noreferrer"
           className="bg-[#132a46] px-5 py-2 rounded-lg hover:bg-[#1d3b5c]">
           LeetCode
         </a>
@@ -42,8 +42,13 @@ const Hero = () => {
         </a>
       </div>
 
-      <a href="#"
-        className="mt-8 bg-[#22d3ee] text-black px-5 py-2 rounded-md font-medium inline-flex items-center w-fit hover:opacity-90 transition">
+      {/* ✅ Resume Button */}
+      <a 
+        href="https://drive.google.com/file/d/11B6oGNW8R08cLfnnIl8uDHPzhQu_022J/view?usp=sharing"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-8 bg-[#22d3ee] text-black px-5 py-2 rounded-md font-medium inline-flex items-center w-fit hover:opacity-90 transition"
+      >
         View Resume
       </a>
 
