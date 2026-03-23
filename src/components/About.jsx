@@ -26,7 +26,7 @@ const About = () => {
       <div className="mt-16 max-w-3xl mx-auto border-l border-[#112240] pl-6 space-y-10">
 
         <div>
-          <h4 className="text-[#22d3ee] font-semibold">2022 - Present</h4>
+          <h4 className="text-[#22d3ee] font-semibold">2023 - Present</h4>
           <p className="text-lg font-medium">B.Tech CSE - LPU</p>
           <p className="text-[#9fb3c8] text-sm">
             Learning core CS subjects, DSA and full stack development.
