@@ -1,82 +1,62 @@
-const Projects = () => {
+import { useEffect, useRef } from "react";
+import { config } from "./data/config";
+
+export default function Projects() {
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+    const items = section.querySelectorAll(".proj-reveal");
+    items.forEach((el) => { el.style.opacity = "0"; el.style.transform = "translateY(40px)"; });
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          items.forEach((el, i) => {
+            setTimeout(() => {
+              el.style.transition = "opacity 0.7s ease, transform 0.7s ease";
+              el.style.opacity = "1"; el.style.transform = "translateY(0)";
+            }, i * 100);
+          });
+          observer.disconnect();
+        }
+      });
+    }, { threshold: 0.1 });
+    observer.observe(section);
+    section.querySelectorAll(".project-card").forEach((card) => {
+      card.addEventListener("mousemove", (e) => {
+        const rect = card.getBoundingClientRect();
+        card.style.setProperty("--mx", `${((e.clientX - rect.left) / rect.width) * 100}%`);
+        card.style.setProperty("--my", `${((e.clientY - rect.top) / rect.height) * 100}%`);
+      });
+    });
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section id="projects" className="px-10 py-20 bg-[#0a192f] text-white">
-      
-      <h2 className="text-3xl font-bold text-blue-400 mb-10">Projects</h2>
-
-      <div className="space-y-10">
-
-        {/* Project 1 */}
-        <div className="bg-[#112240] p-8 rounded-xl shadow-lg hover:scale-[1.02] transition duration-300">
-          
-          <h3 className="text-xl font-semibold mb-4">
-            Exam Paper Generator | Full-Stack MERN Project |{" "}
-            <a
-              href="https://github.com/Yash11tk/Yash11tk-Exam_Paper_Generator"
-              target="_blank"
-              className="text-blue-400"
-            >
-              GitHub
-            </a>
-          </h3>
-
-          <ul className="list-disc ml-5 space-y-3 text-gray-300">
-            <li>
-              Architected a secure full-stack web application that automates exam paper creation by randomly selecting questions, ensuring uniqueness and reducing manual effort in assessment preparation.
-            </li>
-            <li>
-              Configured authentication and authorization mechanisms using JWT to enforce role-based access control for admins and users, protecting sensitive exam and question bank data.
-            </li>
-            <li>
-              Organized a scalable question bank system with subject-wise and difficulty-level categorization, enabling efficient question management and fair exam paper generation.
-            </li>
-            <li>
-              Generated downloadable and printable exam papers through optimized backend logic, ensuring fast performance and consistent output formatting.
-            </li>
-            <li>
-              Tech: MongoDB, Express.js, React, Node.js, JWT, Tailwind CSS
-            </li>
-          </ul>
-
-        </div>
-
-        {/* Project 2 */}
-        <div className="bg-[#112240] p-8 rounded-xl shadow-lg hover:scale-[1.02] transition duration-300">
-          
-          <h3 className="text-xl font-semibold mb-4">
-            Page Replacement Algorithm Simulator |{" "}
-            <a
-              href="https://github.com/Yash11tk/Page-Replacement-Algorithm-Simulator"
-              target="_blank"
-              className="text-blue-400"
-            >
-              GitHub
-            </a>
-          </h3>
-
-          <ul className="list-disc ml-5 space-y-3 text-gray-300">
-            <li>
-              Designed and developed a GUI-based Page Replacement Algorithm Simulator (FIFO, LRU, Optimal) using Tkinter for interactive visualization of memory management operations.
-            </li>
-            <li>
-              Implemented real-time page fault tracking, frame-by-frame simulation, and dynamic graph plotting using Matplotlib embedded within the Tkinter interface.
-            </li>
-            <li>
-              Built robust algorithms for memory frame updates with detailed step explanations, enhancing understanding of OS paging concepts.
-            </li>
-            <li>
-              Integrated user input handling, reset functionality, and state management to enable smooth navigation between simulation steps.
-            </li>
-            <li>
-              Tech: Python, Tkinter, Matplotlib
-            </li>
-          </ul>
-
-        </div>
-
+    <section className="section" id="projects" ref={sectionRef}>
+      <p className="section-label proj-reveal">Projects</p>
+      <div className="projects-grid proj-reveal">
+        {config.projects.map((project) => (
+          <div className="project-card" key={project.id}>
+            <span className="project-num">0{project.id}</span>
+            <div className="project-cat">{project.category}</div>
+            <h3 className="project-title">{project.title}</h3>
+            <p className="project-desc">{project.description}</p>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center",
+                borderTop: "1px solid rgba(255,255,255,0.06)", paddingTop: "16px" }}>
+              <span className="project-tech" style={{ borderTop: "none", paddingTop: 0 }}>
+                {project.technologies}
+              </span>
+              <a href={project.github} target="_blank" rel="noopener noreferrer"
+                 style={{ fontSize: "12px", color: "var(--accent)", opacity: 0.8, whiteSpace: "nowrap",
+                   flexShrink: 0, marginLeft: "12px" }}>
+                GitHub ↗
+              </a>
+            </div>
+          </div>
+        ))}
       </div>
     </section>
   );
-};
-
-export default Projects;
+}

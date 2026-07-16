@@ -1,57 +1,111 @@
+import { useEffect, useRef } from "react";
+import { config } from "./data/config";
+
 export default function Training() {
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            section.querySelectorAll(".train-reveal").forEach((el, i) => {
+              setTimeout(() => {
+                el.style.transition = "opacity 0.7s ease, transform 0.7s ease";
+                el.style.opacity = "1";
+                el.style.transform = "translateY(0)";
+              }, i * 120);
+            });
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+    section.querySelectorAll(".train-reveal").forEach((el) => {
+      el.style.opacity = "0";
+      el.style.transform = "translateY(40px)";
+    });
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
+  const { title, provider, certificate, image, points } = config.training;
+
   return (
-    <section id="training" className="px-10 py-20 bg-[#0a192f] text-white">
-
-      <h2 className="text-3xl font-bold text-blue-400 mb-10">Training</h2>
-
-      <div className="space-y-10">
-
-        {/* Training Card */}
-        <div className="bg-[#112240] p-8 rounded-xl shadow-lg hover:scale-[1.02] transition duration-300">
-
-          <h3 className="text-xl font-semibold mb-4">
-            Master DSA with Java/C++ | W3grads |{" "}
+    <section className="section" id="training" ref={sectionRef}>
+      <p className="section-label train-reveal">Training</p>
+      <div
+        className="train-reveal"
+        style={{
+          border: "1px solid rgba(255,255,255,0.07)",
+          borderRadius: "16px",
+          padding: "48px 40px",
+          background: "rgba(255,255,255,0.015)",
+          marginTop: "40px",
+          position: "relative",
+          overflow: "hidden",
+          display: "grid",
+          gridTemplateColumns: image ? "1.3fr 1fr" : "1fr",
+          gap: "40px",
+          alignItems: "center",
+        }}
+      >
+        <div>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "12px", marginBottom: "24px" }}>
+            <div>
+              <h3 style={{ fontSize: "clamp(20px, 2.5vw, 28px)", fontWeight: 600, marginBottom: "6px" }}>
+                {title}
+              </h3>
+              <span style={{ fontSize: "14px", color: "var(--accent)", fontWeight: 400 }}>{provider}</span>
+            </div>
             <a
-              href="https://drive.google.com/file/d/1hwKYV3ZEMjwWkMEqz3F8PWgAnyiboKiO/view?usp=sharing"
+              href={certificate}
               target="_blank"
-              className="text-blue-400"
+              rel="noopener noreferrer"
+              style={{
+                padding: "10px 24px",
+                borderRadius: "100px",
+                border: "1px solid rgba(194,164,255,0.3)",
+                fontSize: "13px",
+                color: "var(--accent)",
+                fontWeight: 500,
+                whiteSpace: "nowrap",
+              }}
             >
-              Certificate
+              View Certificate ↗
             </a>
-          </h3>
-
-          <ul className="list-disc ml-5 space-y-3 text-gray-300">
-            <li>
-                Developed a Railway Waiting Queue Management System using Java to simulate passenger seat allocation.
-            </li>
-            <li>
-                Implemented Queue (FIFO) data structure to efficiently manage and process waiting list operations.
-            </li>
-            <li>
-                Integrated file handling to store and retrieve passenger data, ensuring data persistence.
-            </li>
-            <li>
-                Tech: Java, Data Structures (Queue), File Handling
-            </li>
+          </div>
+          <ul style={{ listStyle: "none", padding: 0, display: "flex", flexDirection: "column", gap: "12px" }}>
+            {points.map((pt, i) => (
+              <li key={i} style={{ display: "flex", gap: "12px", fontSize: "14px", lineHeight: "1.7", opacity: 0.7, fontWeight: 300 }}>
+                <span style={{ color: "var(--accent)", flexShrink: 0, marginTop: "2px" }}>→</span>
+                {pt}
+              </li>
+            ))}
           </ul>
-
         </div>
-
-        {/* Project-based Training
-        <div className="bg-[#112240] p-8 rounded-xl shadow-lg hover:scale-[1.02] transition duration-300">
-
-          <h3 className="text-xl font-semibold mb-4">
-            Railway Waiting Queue Management System
-          </h3>
-
-          <ul className="list-disc ml-5 space-y-3 text-gray-300">
-            
-          </ul>
-
-        </div> */}
-
+        {image && (
+          <a href={certificate} target="_blank" rel="noopener noreferrer">
+            <img
+              src={image}
+              alt={`${title} certificate`}
+              loading="lazy"
+              style={{
+                width: "100%",
+                borderRadius: "10px",
+                border: "1px solid rgba(255,255,255,0.08)",
+                display: "block",
+              }}
+              onError={(e) => {
+                e.currentTarget.parentElement.style.display = "none";
+              }}
+            />
+          </a>
+        )}
       </div>
-
     </section>
   );
 }

@@ -1,89 +1,169 @@
-import { FaGraduationCap, FaSchool, FaBook } from "react-icons/fa";
+import { useEffect, useRef } from "react";
+import { config } from "./data/config";
 
-const Education = () => {
+const ICONS = ["🎓", "🏫", "📚"];
+
+export default function Education() {
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const items = section.querySelectorAll(".edu-reveal");
+    items.forEach((el) => {
+      el.style.opacity = "0";
+      el.style.transform = "translateY(40px)";
+    });
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            items.forEach((el, i) => {
+              setTimeout(() => {
+                el.style.transition = "opacity 0.7s ease, transform 0.7s ease";
+                el.style.opacity = "1";
+                el.style.transform = "translateY(0)";
+              }, i * 130);
+            });
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section className="py-20 px-10 bg-[#020c1b] text-white">
-      
-      {/* Heading */}
-      <h2 className="text-4xl font-bold text-center mb-4">
-        My <span className="text-[#4f9cff]">Education</span>
-      </h2>
+    <section className="section" id="education" ref={sectionRef}>
+      {/* Section label */}
+      <p
+        className="edu-reveal"
+        style={{
+          fontSize: "11px",
+          letterSpacing: "3px",
+          textTransform: "uppercase",
+          color: "var(--accent)",
+          marginBottom: "16px",
+          opacity: 0.7,
+        }}
+      >
+        Education
+      </p>
 
-      <p className="text-center text-[#9fb3c8] mb-12">
+      {/* Subtitle */}
+      <p
+        className="edu-reveal"
+        style={{
+          fontSize: "14px",
+          opacity: 0.45,
+          marginBottom: "40px",
+          fontWeight: 300,
+        }}
+      >
         Academic journey and qualifications
       </p>
 
-      <div className="space-y-8">
+      {/* Education cards */}
+      <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
+        {config.education.map((item, i) => (
+          <div
+            key={i}
+            className="edu-reveal"
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = "rgba(194,164,255,0.25)";
+              e.currentTarget.style.background = "rgba(194,164,255,0.04)";
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)";
+              e.currentTarget.style.background = "rgba(255,255,255,0.015)";
+            }}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "28px",
+              padding: "32px",
+              border: "1px solid rgba(255,255,255,0.06)",
+              background: "rgba(255,255,255,0.015)",
+              transition: "border-color 0.3s, background 0.3s",
+            }}
+          >
+            {/* Icon box */}
+            <div
+              style={{
+                width: "52px",
+                height: "52px",
+                borderRadius: "12px",
+                fontSize: "22px",
+                background: "rgba(194,164,255,0.1)",
+                border: "1px solid rgba(194,164,255,0.2)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexShrink: 0,
+              }}
+            >
+              {ICONS[i]}
+            </div>
 
-        {/* Card 1 */}
-        <div className="bg-[#0a192f] border border-[#112240] rounded-xl p-6 flex gap-6 items-start hover:shadow-lg transition">
-          <div className="bg-[#112240] p-4 rounded-lg">
-            <FaGraduationCap className="text-[#4f9cff] text-xl" />
-          </div>
+            {/* Degree & Institution */}
+            <div style={{ flex: 1 }}>
+              <div
+                style={{
+                  fontSize: "clamp(15px, 1.5vw, 18px)",
+                  fontWeight: 600,
+                  marginBottom: "4px",
+                  color: "var(--fg)",
+                  lineHeight: "1.3",
+                }}
+              >
+                {item.degree}
+              </div>
+              <div
+                style={{
+                  fontSize: "14px",
+                  color: "var(--accent)",
+                  fontWeight: 400,
+                  opacity: 0.85,
+                }}
+              >
+                {item.institution}
+              </div>
+            </div>
 
-          <div>
-            <h3 className="text-lg font-semibold">
-              Bachelor of Technology – Computer Science & Engineering
-            </h3>
-            <p className="text-[#4f9cff]">
-              Lovely Professional University
-            </p>
-
-            <div className="flex gap-4 mt-3">
-              <span className="bg-[#112240] px-3 py-1 rounded-full text-sm">
-                CGPA: 7.18
-              </span>
+            {/* Grade & Period */}
+            <div style={{ textAlign: "right", flexShrink: 0 }}>
+              <div
+                style={{
+                  display: "inline-block",
+                  padding: "6px 16px",
+                  borderRadius: "100px",
+                  border: "1px solid rgba(194,164,255,0.25)",
+                  fontSize: "13px",
+                  fontWeight: 500,
+                  color: "var(--accent)",
+                  marginBottom: "8px",
+                }}
+              >
+                {item.grade}
+              </div>
+              <div
+                style={{
+                  fontSize: "12px",
+                  opacity: 0.4,
+                  fontWeight: 300,
+                }}
+              >
+                {item.period}
+              </div>
             </div>
           </div>
-        </div>
-
-        {/* Card 2 */}
-        <div className="bg-[#0a192f] border border-[#112240] rounded-xl p-6 flex gap-6 items-start hover:shadow-lg transition">
-          <div className="bg-[#112240] p-4 rounded-lg">
-            <FaSchool className="text-[#4f9cff] text-xl" />
-          </div>
-
-          <div>
-            <h3 className="text-lg font-semibold">
-              Intermediate (12th Grade)
-            </h3>
-            <p className="text-[#4f9cff]">
-              Army Public School Narangi
-            </p>
-
-            <div className="flex gap-4 mt-3">
-              <span className="bg-[#112240] px-3 py-1 rounded-full text-sm">
-                Percentage: 67%
-              </span>
-            </div>
-          </div>
-        </div>
-
-        {/* Card 3 */}
-        <div className="bg-[#0a192f] border border-[#112240] rounded-xl p-6 flex gap-6 items-start hover:shadow-lg transition">
-          <div className="bg-[#112240] p-4 rounded-lg">
-            <FaBook className="text-[#4f9cff] text-xl" />
-          </div>
-
-          <div>
-            <h3 className="text-lg font-semibold">
-              Matriculation (10th Grade)
-            </h3>
-            <p className="text-[#4f9cff]">
-              Army Public School Jabalpur
-            </p>
-
-            <div className="flex gap-4 mt-3">
-              <span className="bg-[#112240] px-3 py-1 rounded-full text-sm">
-                Percentage: 81%
-              </span>
-            </div>
-          </div>
-        </div>
-
+        ))}
       </div>
     </section>
   );
-};
-
-export default Education;
+}
